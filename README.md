@@ -1,91 +1,82 @@
 # VBA-Challenge.pub
+# VBA Homework: The VBA of Wall Street
 
-Public Sub wsloop()
+## Background
 
-' Create loop for all worksheets
+You are well on your way to becoming a programmer and Excel master! In this homework assignment, you will use VBA scripting to analyze generated stock market data. Depending on your comfort level with VBA, you may choose to challenge yourself with a few of the challenge tasks.
 
- For Each ws In Worksheets
- 
-' Assign variables
+### Before You Begin
 
- Dim ticker As String
-    Dim vol_sum As Double
-    vol_sum = 0
+1. Create a new repository for this project called `VBA-challenge`. **Do not add this homework to an existing repository**.
 
-    Dim Summary_Table_Row As Integer
-    Dim year_open As Double
-    Dim year_close As Double
+2. Inside the new repository that you just created, add any VBA files that you use for this assignment. These will be the main scripts to run for each analysis.
 
-' Name generation for columns that will be added
-    
-    ws.Cells(1, 9).Value = "ticker"
-    ws.Cells(1, 10).Value = "Yearly_change"
-    ws.Cells(1, 12).Value = "Total Stock Vol"
-    ws.Cells(1, 11).Value = "Yearly_percentage"
+### Files
 
-    Summary_Table_Row = 2
-    
-' Create loop for table
-    
-    lastrow = ws.Cells(Rows.Count, 1).End(xlUp).Row
-    For i = 2 To lastrow
+* [Test Data](Resources/alphabetical_testing.xlsx) - Use this while developing your scripts.
 
-' In case a value is = 0
+* [Stock Data](Resources/Multiple_year_stock_data.xlsx) - Run your scripts on this data to generate the final homework report.
 
-      If year_open = 0 Then
-          
-         year_open = ws.Cells(i, 3).Value
-         
-      End If
+### Stock Market Analyst
 
-' Defining where the data should map to based on their ticker category
-      If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
-          
-          ticker = ws.Cells(i, 1).Value
-          
-          year_close = ws.Cells(i, 6).Value
-          yearly_change = year_close - year_open
-          
-' Changed to percent with formating in excel (could add *100 here if not)
-          yearly_percentage = (yearly_change / year_open)
+![alt=""](Images/stockmarket.jpg)
 
-          vol_sum = vol_sum + ws.Cells(i, 7).Value
+## Instructions
 
-'Map where the summary table values will go
-          
-          ws.Range("j" & Summary_Table_Row).Value = yearly_change
-          ws.Range("I" & Summary_Table_Row).Value = ticker
-          ws.Range("K" & Summary_Table_Row).Value = yearly_percentage
-          ws.Range("L" & Summary_Table_Row).Value = vol_sum
+Create a script that loops through all the stocks for one year and outputs the following information:
 
-          Summary_Table_Row = Summary_Table_Row + 1
+  * The ticker symbol.
 
-' Reset value of ticker category before moving to next
-          vol_sum = 0
+  * Yearly change from opening price at the beginning of a given year to the closing price at the end of that year.
 
+  * The percent change from opening price at the beginning of a given year to the closing price at the end of that year.
 
-      Else
+  * The total stock volume of the stock.
 
-          vol_sum = vol_sum + Cells(i, 7).Value
+**Note:** Make sure to use conditional formatting that will highlight positive change in green and negative change in red.
 
+The result should match the following image:
 
-      End If
+![moderate_solution](Images/moderate_solution.png)
 
+## Bonus
 
-    Next i
-    
-' Create labels for calculations
+Add functionality to your script to return the stock with the "Greatest % increase", "Greatest % decrease", and "Greatest total volume". The solution should match the following image:
 
-ws.Cells(2, 14).Value = "Greatest % Increase"
-ws.Cells(3, 14).Value = "Greatest % Decrease"
-ws.Cells(4, 14).Value = "Greatest Volume"
+![hard_solution](Images/hard_solution.png)
 
-' Calculate max and min for summary table
+Make the appropriate adjustments to your VBA script to allow it to run on every worksheet (that is, every year) just by running the VBA script once.
 
-ws.Cells(2, 15).Value = Application.WorksheetFunction.Max(ws.Range("K2:K3001"))
-ws.Cells(3, 15).Value = Application.WorksheetFunction.Min(ws.Range("K2:K3001"))
-ws.Cells(4, 15).Value = Application.WorksheetFunction.Max(ws.Range("L2:L3001"))
-Next ws
+## Other Considerations
+
+* Use the sheet `alphabetical_testing.xlsx` while developing your code. This data set is smaller and will allow you to test faster. Your code should run on this file in less than 3 to 5 minutes.
+
+* Make sure that the script acts the same on every sheet. The joy of VBA is that it takes the tediousness out of repetitive tasks with one click of a button.
+
+* Some assignments, like this one, contain a bonus. It is possible to achieve proficiency for this assignment without completing the bonus. The bonus is an opportunity to further develop your skills and be rewarded extra points for doing so.
+
+## Submission
+
+To submit, please upload the following to GitHub:
+
+  * A screen shot for each year of your results on the multi-year stock data.
+
+  * VBA scripts as separate files.
+
+Be sure to commit regularly to your repository and that it contains a README.md file.
+
+After saving your work, create a shareable link and submit the link to <https://bootcampspot-v2.com/>.
+
+## Rubric
+
+[Unit 2 Rubric - VBA Homework - The VBA of Wall Street](https://docs.google.com/document/d/1OjDM3nyioVQ6nJkqeYlUK7SxQ3WZQvvV3T9MHCbnoWk/edit?usp=sharing)
+
+## References
+
+* Dataset generated by Trilogy Education Services, LLC.
+
+- - -
+
+© 2022 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
 
 
-End Sub
